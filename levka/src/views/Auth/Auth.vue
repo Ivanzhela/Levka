@@ -1,7 +1,10 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
+import { mapActions } from "pinia";
 import Input from "../../components/Input.vue";
-import formAction from "./formType.js"
+import formAction from "./formType.js";
+import { useUserStore } from "../../store/userStore";
+import { loginUser, registerUser } from "../../dataProviders/auth.js";
 
 export default {
   setup() {
@@ -16,16 +19,24 @@ export default {
     };
   },
   methods: {
+    ...mapActions(useUserStore, ["setUser"]),
     async onSubmit() {
-
       const isValid = await this.v$.$validate();
 
       if (isValid) {
-        this.formData = JSON.stringify(
-          this.data.formData[this.formTypeAction],
-          null,
-          4
-        );
+        const userData =
+          this.formTypeAction == "login"
+            ? await loginUser({
+                ...this.formData[this.formTypeAction],
+              })
+            : await registerUser({
+                ...this.formData[this.formTypeAction],
+              });
+        if (userData) {
+          this.v$.$reset();
+          this.setUser(userData);
+          this.$router.push("/");
+        }
       }
     },
     changeFormTypeAction(newFormType) {
@@ -34,8 +45,12 @@ export default {
     },
   },
   validations() {
-    return formAction.validator(this.formData.register.password, this.formTypeAction)
+    return formAction.validator(
+      this.formData.register.password,
+      this.formTypeAction
+    );
   },
+
   components: { Input },
 };
 </script>
@@ -47,11 +62,19 @@ export default {
     </h1>
     <form action="" @submit.prevent="onSubmit">
       <Input
-        v-model="v$.formData[formTypeAction].username.$model"
-        placeholder="име"
-        name="username"
-        :error="v$.formData[formTypeAction].username.$errors"
+        v-model="v$.formData[formTypeAction].email.$model"
+        placeholder="имейл"
+        name="email"
+        :error="v$.formData[formTypeAction].email.$errors"
       />
+      <template v-if="formTypeAction == 'register'">
+        <Input
+          v-model="v$.formData[formTypeAction].username.$model"
+          placeholder="име"
+          name="username"
+          :error="v$.formData[formTypeAction].username.$errors"
+        />
+      </template>
       <Input
         v-model="v$.formData[formTypeAction].password.$model"
         placeholder="парола"
@@ -81,13 +104,15 @@ export default {
         <button class="catalogBtn">
           {{ formTypeAction == "login" ? "ВХОД" : "РЕГИСТРАЦИЯ" }}
         </button>
-        <p class="catalogBtn"
+        <p
+          class="catalogBtn"
           @click="
             changeFormTypeAction(
               formTypeAction == 'login' ? 'register' : 'login'
             )
           "
-        > {{ formTypeAction == "login" ? "РЕГИСТРАЦИЯ" : "ВХОД" }}
+        >
+          {{ formTypeAction == "login" ? "РЕГИСТРАЦИЯ" : "ВХОД" }}
         </p>
       </div>
     </form>

@@ -3,11 +3,12 @@ import { required, minLength, maxLength, sameAs } from "@vuelidate/validators";
 export default {
   formData: {
     login: {
-      username: "",
+      email: "",
       password: "",
       terms: false,
     },
     register: {
+        email: "",
       username: "",
       password: "",
       rePass: "",
@@ -18,7 +19,7 @@ export default {
     const data = {
       formData: {
         login: {
-          username: {
+          email: {
             required,
             minLengthValue: minLength(4),
             maxLengthValue: maxLength(20),
@@ -34,6 +35,11 @@ export default {
         },
         register: {
           username: {
+            required,
+            minLengthValue: minLength(4),
+            maxLengthValue: maxLength(20),
+          },
+          email: {
             required,
             minLengthValue: minLength(4),
             maxLengthValue: maxLength(20),
