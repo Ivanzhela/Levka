@@ -1,3 +1,18 @@
+<script>
+import { mapActions, mapState } from 'pinia';
+import { RouterLink } from 'vue-router';
+import { useUserStore } from '../store/userStore';
+export default {
+  computed: {
+    ...mapState(useUserStore, ['isAuthenticated', 'profile']),
+  },
+  methods: {
+    ...mapActions(useUserStore, ['logout']),
+  },
+
+};
+</script>
+
 <template>
   <header>
     <router-link to="/" class="logo">
@@ -5,16 +20,17 @@
     </router-link>
     <nav>
       <router-link to="/catalog"><i style="font-size: 24px" class="fa">&#xf002;</i></router-link>
-      <router-link to="/auth"><i style="font-size: 24px" class="fa">&#xf2be;</i></router-link>
-      <router-link to="/cart"><i style="font-size: 24px" class="fa">&#xf07a;</i></router-link>
-      <!-- <a href="">login</a> -->
+      <template v-if="isAuthenticated">
+        <router-link to="/cart"><i style="font-size: 24px" class="fa">&#xf07a;</i></router-link>
+        <router-link to="/" @click="logout"><i style="font-size:24px" class="fa">&#xf08b;</i></router-link>
+      </template>
+      <template v-else="!isAuthenticated">
+        <router-link to="/auth"><i style="font-size: 24px" class="fa">&#xf07a;</i></router-link>
+        <router-link to="/auth"><i style="font-size: 24px" class="fa">&#xf2be;</i></router-link>
+      </template>
     </nav>
   </header>
 </template>
-
-<script>
-export default {};
-</script>
 
 <style lang="css" scoped>
 header {

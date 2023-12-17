@@ -1,18 +1,21 @@
+<script>
+import { RouterLink } from "vue-router";
+
+export default {
+  props: {
+    categoryName: String,
+  },
+  components: { RouterLink },
+};
+</script>
+
 <template>
-  <div class="productCategory">
+  <router-link :to="'/catalog/' + categoryName" class="productCategory">
     <h2>{{ categoryName }}</h2>
     <img src="src/assets/img/meal2.jpg" alt="products" />
     <p>+</p>
-  </div>
+  </router-link>
 </template>
-
-<script>
-export default {
-    props: {
-        categoryName: String,
-    }
-};
-</script>
 
 <style lang="css" scoped>
 .productCategory {
@@ -20,6 +23,7 @@ export default {
   height: 380px;
   position: relative;
   border: 1px solid #d9a273;
+  color: #f4f4f4;
 }
 .productCategory::after {
   content: "";

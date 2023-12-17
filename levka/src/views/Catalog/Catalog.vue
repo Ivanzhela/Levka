@@ -1,3 +1,16 @@
+<script>
+import CategoryItem from "./CategoryItem/CategoryItem.vue";
+
+export default {
+  data() {
+    return {
+      categoryNames: ["Стекове", "Дреболии", "Колбаси", "Други"],
+    };
+  },
+  components: { CategoryItem },
+};
+</script>
+
 <template>
   <section class="catalog">
     <div class="catalogContent">
@@ -20,19 +33,6 @@
     </div>
   </section>
 </template>
-
-<script>
-import CategoryItem from "./CategoryItem/CategoryItem.vue";
-
-export default {
-  data() {
-    return {
-      categoryNames: ["Стекове", "Дреболии", "Колбаси", "Други"],
-    };
-  },
-  components: { CategoryItem },
-};
-</script>
 
 <style lang="css" scoped>
 .catalog {

@@ -15,6 +15,12 @@ export const useUserStore = defineStore("user", {
       this.isAuthenticated = true;
       sessionStorage.setItem("user", JSON.stringify(profileData));
     },
+    setSessionUser() {
+        const userData = sessionStorage.getItem("user");
+        if (!userData) return;
+        this.user = JSON.parse(userData);
+        this.isAuthenticated = true;
+      },
     addProductToCart(id) {
         let product = this.productsInCart.find(a => a.hasOwnProperty(id));
         if(!product) {
@@ -30,12 +36,6 @@ export const useUserStore = defineStore("user", {
       this.favouritesIds = this.favouritesIds.filter(
         (favourite) => favourite !== id
       );
-    },
-    getUser() {
-      const userData = sessionStorage.getItem("user");
-      if (!userData) return;
-      this.user = JSON.parse(userData);
-      this.isAuthenticated = true;
     },
     logout() {
       this.isAuthenticated = false;

@@ -1,22 +1,25 @@
+<script>
+export default {
+  props: {
+    content: Boolean,
+    product: {
+      type: Object
+    },
+  },
+};
+</script>
+
 <template>
   <div class="framedImg">
     <div class="frame"></div>
-    <img src="src/assets/img/meal2.jpg" alt="" />
+    <img :src="product.img" alt="" />
     <div v-if="content" class="content">
-      <p>Шол-парче</p>
-      <p>25лв / кг</p>
+      <p>{{ product.name }}</p>
+      <p>{{ product.price }} / кг</p>
       <button class="catalogBtn">Поръчай</button>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    content: Boolean
-  }
-};
-</script>
 
 <style lang="css" scoped>
 .framedImg {

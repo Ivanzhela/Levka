@@ -1,3 +1,21 @@
+<script>
+import Product from "../../../components/Product.vue";
+import { getAllProducts } from "../../../dataProviders/products";
+
+export default {
+  components: { Product },
+  data() {
+    return {
+      products: null,
+    };
+  },
+  async created() {
+    const category = this.$route.params.category;
+    await getAllProducts(category).then((prod) => (this.products = prod));
+  },
+};
+</script>
+
 <template>
   <section class="categoryDetails">
     <div class="categoryDetailsContent">
@@ -14,16 +32,10 @@
       <img src="src/assets/img/meatCuts.png" alt="" />
     </div>
     <div class="products">
-        <Product content v-for="index of 4" :key="index"/>
+      <Product content v-for="prod of products" :key="prod._id" :product="prod" />
     </div>
   </section>
 </template>
-
-<script>
-import Product from '../../../components/Product.vue';
-
-export default { components: { Product } };
-</script>
 
 <style lang="css" scoped>
 .categoryDetails {
@@ -71,5 +83,4 @@ export default { components: { Product } };
   text-align: center;
   gap: 100px;
 }
-
 </style>
