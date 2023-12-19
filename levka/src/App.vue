@@ -25,11 +25,5 @@ export default {
 <template>
   <Header />
   <router-view></router-view>
-  <!-- <Home/> -->
-  <!-- <Catalog/> -->
-  <!-- <CategoryDetails/> -->
-  <!-- <Details/> -->
-  <!-- <Cart/> -->
-  <!-- <Auth /> -->
   <Footer/>
 </template>

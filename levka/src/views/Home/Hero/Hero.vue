@@ -1,22 +1,29 @@
 <template>
   <section class="heroContainer">
     <div class="hero">
-      <img src="src/assets/img/AdobeStock_413182512-scaled.webp" alt="" />
+      <img src="/src/assets/img/AdobeStock_413182512-scaled.webp" alt="" />
     </div>
     <div class="container">
-      <img v-for="index in 4" src="src/assets/img/Rock-Salts(1).png"  :class="'image' + index" />
-      <img src="src/assets/img/pepper.png" class="image5" />
+      <img
+        v-for="index in 4"
+        src="/src/assets/img/Rock-Salts(1).png"
+        :class="'image' + index"
+      />
+      <img src="/src/assets/img/pepper.png" class="image5" />
     </div>
     <div class="content">
-      <img src="src/assets/img/logo9.png" alt="logo" />
+      <img src="/src/assets/img/logo9.png" alt="logo" />
       <h2>СЕМЕЙНА ФЕРМА</h2>
       <p>Свежо, младо телешко месо, директно от транжорната!</p>
-      <button class="catalogBtn">НАШИТЕ ПРОДУКТИ</button>
+      <router-link to="/catalog" class="catalogBtn"
+        >НАШИТЕ ПРОДУКТИ</router-link
+      >
     </div>
   </section>
 </template>
 
 <script>
+import { RouterLink } from "vue-router";
 export default {};
 </script>
 

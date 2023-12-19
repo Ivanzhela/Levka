@@ -1,6 +1,6 @@
 @font-face {
   font-family: "SofiaSans";
-  src: url("./src/assets/Fonts/Sofia_Sans_Semi_Condensed/SofiaSansSemiCondensed-VariableFont_wght.ttf");
+  src: url("/src/assets/Fonts/Sofia_Sans_Semi_Condensed/SofiaSansSemiCondensed-VariableFont_wght.ttf");
 }
 
 /* Box sizing rules */
@@ -92,4 +92,5 @@ select {
   letter-spacing: 0.2em;
   border: none;
   font-weight: 800;
+  text-decoration: none;
 }

@@ -4,9 +4,7 @@ export const useUserStore = defineStore("user", {
   state: () => {
     return {
       isAuthenticated: false,
-      user: null,
-      productsInCart: [],
-      favourites: [],
+      user: null
     };
   },
   actions: {

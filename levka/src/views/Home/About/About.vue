@@ -1,6 +1,6 @@
 <template>
   <section class="about">
-    <Product :content="false"/>
+    <Product :content="false" :product="{}"/>
     <div class="aboutContent">
       <h2>ЛЕВКА</h2>
       <h3>Винаги Свежо Месо</h3>

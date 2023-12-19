@@ -7,7 +7,7 @@ export default {
       categoryNames: ["Стекове", "Дреболии", "Колбаси", "Други"],
     };
   },
-  components: { CategoryItem },
+  components: { CategoryItem }
 };
 </script>
 

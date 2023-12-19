@@ -1,3 +1,23 @@
+<script>
+import { mapActions, mapState } from "pinia";
+import { RouterLink } from "vue-router";
+import { useUserStore } from "../../store/userStore";
+import { useProductsStore } from "../../store/productsStore";
+
+export default {
+  computed: {
+    ...mapState(useUserStore, ["user"]),
+    ...mapState(useProductsStore, ["products"]),
+    cartProducts() {
+      if (this.user && this.products) {
+        return this.products.filter((p) => this.user.cart.includes(p._id));
+      }
+    },
+  },
+  methods: {},
+};
+</script>
+
 <template>
   <section class="cartItems">
     <div class="items">
@@ -6,42 +26,18 @@
         <h3>Количество</h3>
         <h3>Цена</h3>
       </div>
-      <div class="itemsProducts">
-        <div class="item">
+      <div class="itemsProducts" :v-if="products">
+        <div v-for="p of cartProducts" class="item" :key="p._id">
           <div class="itemContent">
-            <img src="src/assets/img/meal2.jpg" alt="" />
-            <p>Био телешка кайма с подправки</p>
+            <img :src="p.img" alt="" />
+            <p>{{ p.name }}</p>
           </div>
           <div class="quantity">
             <p>-</p>
             <p>1</p>
             <p>+</p>
           </div>
-          <p>12.50</p>
-        </div>
-        <div class="item">
-          <div class="itemContent">
-            <img src="src/assets/img/meal2.jpg" alt="" />
-            <p>Био телешка кайма с подправки</p>
-          </div>
-          <div class="quantity">
-            <p>-</p>
-            <p>1</p>
-            <p>+</p>
-          </div>
-          <p>12.50</p>
-        </div>
-        <div class="item">
-          <div class="itemContent">
-            <img src="src/assets/img/meal2.jpg" alt="" />
-            <p>Био телешка кайма с подправки</p>
-          </div>
-          <div class="quantity">
-            <p>-</p>
-            <p>1</p>
-            <p>+</p>
-          </div>
-          <p>12.50</p>
+        <p>{{ p.price }}</p>
         </div>
       </div>
     </div>
@@ -67,10 +63,6 @@
     </div>
   </section>
 </template>
-
-<script>
-export default {};
-</script>
 
 <style lang="css" scoped>
 .cartItems {

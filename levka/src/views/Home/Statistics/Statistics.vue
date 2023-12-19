@@ -1,6 +1,6 @@
 <template>
   <section class="quality">
-    <img src="src/assets/img/qualityImg.jpg" alt="" />
+    <img src="/src/assets/img/qualityImg.jpg" alt="" />
     <div class="quality-item">
       <p>100+</p>
       <h4>Пасищно отглеждани животни</h4>

@@ -2,19 +2,21 @@
   <section class="videoAd">
     <div class="video">
       <video id="my-video" autoplay muted onended="restartVideo()">
-        <source src="src/assets/img/video1.mp4" type="video/mp4" />
-        <source src="src/assets/img/video1.ogg" type="video/ogg" />
+        <source src="/src/assets/img/video1.mp4" type="video/mp4" />
+        <source src="/src/assets/img/video1.ogg" type="video/ogg" />
         Вашият браузър не поддържа видео тага.
       </video>
     </div>
     <div class="content">
       <p>Ние избрахме качество, Вие избирате количество.</p>
-      <button class="catalogBtn">Продукти</button>
+      <router-link to="/catalog" class="catalogBtn">Продукти</router-link>
     </div>
   </section>
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
+
 export default {};
 </script>
 

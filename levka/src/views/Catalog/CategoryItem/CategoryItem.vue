@@ -12,7 +12,7 @@ export default {
 <template>
   <router-link :to="'/catalog/' + categoryName" class="productCategory">
     <h2>{{ categoryName }}</h2>
-    <img src="src/assets/img/meal2.jpg" alt="products" />
+    <img src="/src/assets/img/meal2.jpg" alt="products" />
     <p>+</p>
   </router-link>
 </template>

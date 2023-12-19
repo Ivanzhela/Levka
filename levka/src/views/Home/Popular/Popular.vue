@@ -5,17 +5,25 @@
       <h3>Най-продавани</h3>
     </div>
     <div class="catalog">
-      <Product v-for="index in 4" :key="index" content/>
+      <Product v-for="prod of slicedProducts" :key="prod._id" content :product="prod"/>
     </div>
   </section>
 </template>
 
 <script>
 import Product from "../../../components/Product.vue";
-
+import { mapState } from 'pinia';
+import { useProductsStore } from '../../../store/productsStore.js'
 export default {
   components: {
     Product,
+  },
+  computed: {
+    ...mapState(useProductsStore, ['products']),
+    slicedProducts() {
+      if(this.products)
+      return this.products.slice(0, 4)
+    }
   },
 };
 </script>

@@ -2,7 +2,7 @@
     <footer>
       <div class="footerInfo">
         <div class="logo">
-          <img src="src/assets/img/logo9.png" alt="logo" />
+          <img src="/src/assets/img/logo9.png" alt="logo" />
         </div>
         <div>
           <h4>Връзки</h4>

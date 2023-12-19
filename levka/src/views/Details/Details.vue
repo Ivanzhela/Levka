@@ -1,45 +1,61 @@
-<template>
-<section class="detailsProduct">
-        <Product/>
-        <div class="aboutContent">
-          <div class="meatCuts">
-            <img src="src/assets/img/meatCuts.png" alt="" />
-            <img id="meatCut" src="src/assets/img/meatCutCotlet.png" alt="" />
-            <img src="src/assets/img/dottedLine.png" alt="" />
-          </div>
-          <h2>СТЕКОВЕ</h2>
-          <h1>Т-Бон Стек</h1>
-          <h3>40лв / кг</h3>
-          <p>
-            Т-боун стек е най-високият клас прясно охладено телешко месо от
-            горната част на гръбнака. Включва бонфиле, контрафиле и костта между
-            тях. Това е един от най-предпочитаните телешки стекове.
-          </p>
-          <div class="aboutContentInformation">
-            <div class="information">
-              <i style="font-size: 24px" class="fa">&#xf05d;</i>
-              <p>Една опаковка е със средно тегло 500гр.</p>
-            </div>
-            <div class="information">
-              <i style="font-size: 24px" class="fa">&#xf05d;</i>
-              <p>Поръчката е за минимум 1кг.</p>
-            </div>
-          </div>
-          <button class="catalogBtn">ДОБАВИ В КОЛИЧКА</button>
-        </div>
-      </section> 
-</template>
-
 <script>
-import Product from '../../components/Product.vue';
+import { mapState } from "pinia";
+import { useProductsStore } from "../../store/productsStore.js";
+import Product from "../../components/Product.vue";
 
-    export default {
-    components: { Product }
-}
+export default {
+  components: { Product },
+  data() {
+    return {
+      productId: null,
+      currProduct: null,
+    };
+  },
+  created() {
+    this.productId = this.$route.params.id;
+  },
+  computed: {
+    ...mapState(useProductsStore, ["products"]),
+    findProduct() {
+      if (this.products) {
+        const prod = this.products.find((p) => p._id === this.productId);
+        this.currProduct = prod;
+        return prod;
+      }
+    },
+  },
+};
 </script>
 
-<style lang="css" scoped>
+<template>
+  <section class="detailsProduct" v-if="findProduct">
+    <Product :product="currProduct" />
+    <div class="aboutContent">
+      <div class="meatCuts">
+        <img src="/src/assets/img/meatCuts.png" alt="" />
+        <img id="meatCut" src="/src/assets/img/meatCutCotlet.png" alt="" />
+        <img src="/src/assets/img/dottedLine.png" alt="" />
+      </div>
+      <h2>{{ currProduct.category }}</h2>
+      <h1>{{ currProduct.name }}</h1>
+      <h3>{{ currProduct.price }}лв / кг</h3>
+      <p>{{ currProduct.description }}</p>
+      <div class="aboutContentInformation">
+        <div class="information">
+          <i style="font-size: 24px" class="fa">&#xf05d;</i>
+          <p>Една опаковка е със средно тегло 500гр.</p>
+        </div>
+        <div class="information">
+          <i style="font-size: 24px" class="fa">&#xf05d;</i>
+          <p>Поръчката е за минимум 1кг.</p>
+        </div>
+      </div>
+      <button class="catalogBtn">ДОБАВИ В КОЛИЧКА</button>
+    </div>
+  </section>
+</template>
 
+<style lang="css" scoped>
 .detailsProduct {
   display: flex;
   justify-content: space-between;
@@ -128,5 +144,4 @@ import Product from '../../components/Product.vue';
   font-weight: 700;
   font-size: 18px;
 }
-
 </style>

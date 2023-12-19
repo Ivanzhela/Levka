@@ -1,25 +1,33 @@
 <script>
+import { mapState } from 'pinia';
 import Product from "../../../components/Product.vue";
-import { getAllProducts } from "../../../dataProviders/products";
+import { useProductsStore } from "../../../store/productsStore.js"
 
 export default {
   components: { Product },
   data() {
     return {
-      products: null,
+      category: ""
     };
   },
-  async created() {
-    const category = this.$route.params.category;
-    await getAllProducts(category).then((prod) => (this.products = prod));
+  created() {
+    this.category = this.$route.params.category;
+  },
+  computed: {
+    ...mapState(useProductsStore, ['products']),
+    filteredProducts() {
+      if(this.products)
+      return this.products.filter(p => p.category == this.category.toLowerCase());
+    }
   },
 };
 </script>
 
+
 <template>
   <section class="categoryDetails">
     <div class="categoryDetailsContent">
-      <h1>Стекове</h1>
+      <h1>{{ category }}</h1>
       <p>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro, sint
         iusto. Nobis neque aut, repellendus quam recusandae architecto
@@ -29,10 +37,10 @@ export default {
         doloremque quidem vero neque quis rem!
       </p>
 
-      <img src="src/assets/img/meatCuts.png" alt="" />
+      <img src="/src/assets/img/meatCuts.png" alt="" />
     </div>
     <div class="products">
-      <Product content v-for="prod of products" :key="prod._id" :product="prod" />
+      <Product content v-for="prod of filteredProducts" :key="prod._id" :product="prod" />
     </div>
   </section>
 </template>
