@@ -2,7 +2,11 @@
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "../../store/userStore";
 import { useProductsStore } from "../../store/productsStore";
-import { deleteProductCart, setProductCart, clearCart } from "../../dataProviders/cart.js";
+import {
+  deleteProductCart,
+  setProductCart,
+  clearCart,
+} from "../../dataProviders/cart.js";
 import { ref } from "vue";
 
 ref();
@@ -11,6 +15,7 @@ export default {
   data() {
     return {
       finalPrice: 0,
+      isPaid: false,
     };
   },
   computed: {
@@ -57,7 +62,11 @@ export default {
       clearCart().then((r) => {
         const currUser = JSON.parse(sessionStorage.getItem("user"));
         this.setUser({ ...currUser, cart: r.cart });
+        this.isPaid = true;
       });
+      setTimeout(() => {
+        this.isPaid = false;
+      }, 3000);
     },
   },
 };
@@ -85,6 +94,10 @@ export default {
           <p>{{ p.count * p.price }}</p>
         </div>
       </div>
+      <div :v-else="!products" class="emptyCart">
+      <p>Нямате продукти в количката!</p>
+      <router-link to="/catalog" class="catalogBtn">ПРОДУКТИ</router-link>
+    </div>
     </div>
     <div class="payment">
       <h3>Обща сума на количката</h3>
@@ -105,6 +118,9 @@ export default {
         <p>{{ (finalPrice + 6.2 + 4).toFixed(2) }}лв.</p>
       </div>
       <button class="catalogBtn" @click="onPayment">ПЛАТИ</button>
+    </div>
+    <div v-if="isPaid " class="paid">
+      <p>Благодарим за поръчката!</p>
     </div>
   </section>
 </template>
@@ -207,5 +223,30 @@ export default {
   font-size: 18px;
   width: 40%;
   margin: 0;
+}
+
+.paid {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #10101089;
+}
+
+.paid p {
+  padding: 30px;
+  border: 2px solid #bf04146f;
+  background-color: #400101;
+  font-size: 48px;
+}
+
+.emptyCart {
+  margin: 20px 0;
+  font-size: 52px;
 }
 </style>
