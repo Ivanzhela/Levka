@@ -94,10 +94,10 @@ export default {
           <p>{{ p.count * p.price }}</p>
         </div>
       </div>
-      <div :v-else="!products" class="emptyCart">
-      <p>Нямате продукти в количката!</p>
-      <router-link to="/catalog" class="catalogBtn">ПРОДУКТИ</router-link>
-    </div>
+      <div v-if="user.cart.length === 0" class="emptyCart">
+        <p>Нямате продукти в количката!</p>
+        <router-link to="/catalog" class="catalogBtn">ПРОДУКТИ</router-link>
+      </div>
     </div>
     <div class="payment">
       <h3>Обща сума на количката</h3>
@@ -119,7 +119,7 @@ export default {
       </div>
       <button class="catalogBtn" @click="onPayment">ПЛАТИ</button>
     </div>
-    <div v-if="isPaid " class="paid">
+    <div v-if="isPaid" class="paid">
       <p>Благодарим за поръчката!</p>
     </div>
   </section>
