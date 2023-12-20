@@ -9,6 +9,7 @@ export const useUserStore = defineStore("user", {
   },
   actions: {
     setUser(profileData) {
+      console.log(Object.assign({}, profileData));
       this.user = profileData;
       this.isAuthenticated = true;
       sessionStorage.setItem("user", JSON.stringify(profileData));

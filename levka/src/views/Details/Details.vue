@@ -2,6 +2,7 @@
 import { mapState } from "pinia";
 import { useProductsStore } from "../../store/productsStore.js";
 import Product from "../../components/Product.vue";
+import { setProductCart } from '../../dataProviders/cart.js'
 
 export default {
   components: { Product },
@@ -24,6 +25,11 @@ export default {
       }
     },
   },
+  methods: {
+    async setCart() {
+      await setProductCart(this.productId)
+    }
+  }
 };
 </script>
 
@@ -50,7 +56,7 @@ export default {
           <p>Поръчката е за минимум 1кг.</p>
         </div>
       </div>
-      <button class="catalogBtn">ДОБАВИ В КОЛИЧКА</button>
+      <button class="catalogBtn" @click="setCart">ДОБАВИ В КОЛИЧКА</button>
     </div>
   </section>
 </template>

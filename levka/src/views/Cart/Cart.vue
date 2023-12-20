@@ -1,8 +1,8 @@
 <script>
-import { mapActions, mapState } from "pinia";
-import { RouterLink } from "vue-router";
+import { mapState, mapActions } from "pinia";
 import { useUserStore } from "../../store/userStore";
 import { useProductsStore } from "../../store/productsStore";
+import { deleteProductCart } from "../../dataProviders/cart.js";
 
 export default {
   computed: {
@@ -10,11 +10,21 @@ export default {
     ...mapState(useProductsStore, ["products"]),
     cartProducts() {
       if (this.user && this.products) {
-        return this.products.filter((p) => this.user.cart.includes(p._id));
+        console.log({...this.user});
+        return this.products.filter((p) => ({...this.user}.cart.includes(p._id)));
       }
+    }
+  },
+  methods: {
+    ...mapActions(useUserStore, ["setUser"]),
+    onDeleteProductCart(id) {
+      deleteProductCart(id).then((r) => {
+        
+        const currUser = JSON.parse(sessionStorage.getItem("user"));
+        this.setUser({ ...currUser, cart: r.cart });
+      });
     },
   },
-  methods: {},
 };
 </script>
 
@@ -37,7 +47,8 @@ export default {
             <p>1</p>
             <p>+</p>
           </div>
-        <p>{{ p.price }}</p>
+          <p>{{ p.price }}</p>
+          <p @click="onDeleteProductCart(p._id)">X</p>
         </div>
       </div>
     </div>

@@ -15,9 +15,7 @@
       <img src="/src/assets/img/logo9.png" alt="logo" />
       <h2>СЕМЕЙНА ФЕРМА</h2>
       <p>Свежо, младо телешко месо, директно от транжорната!</p>
-      <router-link to="/catalog" class="catalogBtn"
-        >НАШИТЕ ПРОДУКТИ</router-link
-      >
+      <router-link to="/catalog" class="catalogBtn">НАШИТЕ ПРОДУКТИ</router-link>
     </div>
   </section>
 </template>

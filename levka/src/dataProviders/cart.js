@@ -15,12 +15,13 @@ const BASE_PRODUCT_URL = 'https://dull-ruby-alligator-suit.cyclic.app/shop/cart'
 export async function setProductCart(id) {
     try {
       const options = {
+        method: 'POST',
         headers: {
           'x-authorization': JSON.parse(sessionStorage.getItem('user')).token
         }
       }
-      const res = await axios.post(`${BASE_PRODUCT_URL}${id}`, options);
-      return res.data;
+      const res = await fetch(`${BASE_PRODUCT_URL}/${id}`, options);
+      return res;
     }
     catch (e) {
       console.log('Error', e);
@@ -28,10 +29,16 @@ export async function setProductCart(id) {
     }
   }
 
-  export async function deleteProductCart(id) {
+  export function deleteProductCart(id) {
     try {
-      const res = await axios.delete(BASE_PRODUCT_URL, {id});
-      return res.data;
+      const options = {
+        method: 'PUT',
+        headers: {
+          'x-authorization': JSON.parse(sessionStorage.getItem('user')).token
+        }
+      }
+      const res = fetch(`${BASE_PRODUCT_URL}/${id}`, options).then(r => r.json());
+      return res;
     }
     catch (e) {
       console.log('Error', e);
