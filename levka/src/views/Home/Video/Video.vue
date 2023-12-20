@@ -2,8 +2,7 @@
   <section class="videoAd">
     <div class="video">
       <video id="my-video" autoplay muted onended="restartVideo()">
-        <source src="/src/assets/img/video1.mp4" type="video/mp4" />
-        <source src="/src/assets/img/video1.ogg" type="video/ogg" />
+
         Вашият браузър не поддържа видео тага.
       </video>
     </div>

@@ -1,2 +1,0 @@
-# Levka
-Online store
