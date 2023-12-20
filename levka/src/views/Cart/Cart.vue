@@ -2,24 +2,59 @@
 import { mapState, mapActions } from "pinia";
 import { useUserStore } from "../../store/userStore";
 import { useProductsStore } from "../../store/productsStore";
-import { deleteProductCart } from "../../dataProviders/cart.js";
+import { deleteProductCart, setProductCart, clearCart } from "../../dataProviders/cart.js";
+import { ref } from "vue";
+
+ref();
 
 export default {
+  data() {
+    return {
+      finalPrice: 0,
+    };
+  },
   computed: {
     ...mapState(useUserStore, ["user"]),
     ...mapState(useProductsStore, ["products"]),
     cartProducts() {
       if (this.user && this.products) {
-        console.log({...this.user});
-        return this.products.filter((p) => ({...this.user}.cart.includes(p._id)));
+        const allProducts = this.products;
+        const cartItems = this.user.cart;
+
+        const resultObject = cartItems.reduce((obj, item) => {
+          obj[item] = (obj[item] || 0) + 1;
+          return obj;
+        }, {});
+
+        const res = Object.entries(resultObject).map((product) => {
+          const id = product[0];
+          const prod = allProducts.find((p) => p._id == id);
+          return { ...prod, count: product[1] };
+        });
+
+        this.finalPrice = res
+          .map((p) => p.price * p.count)
+          .reduce((pv, cv) => pv + cv, 0);
+        return res;
       }
-    }
+    },
   },
   methods: {
     ...mapActions(useUserStore, ["setUser"]),
     onDeleteProductCart(id) {
       deleteProductCart(id).then((r) => {
-        
+        const currUser = JSON.parse(sessionStorage.getItem("user"));
+        this.setUser({ ...currUser, cart: r.cart });
+      });
+    },
+    onAddProductCart(id) {
+      setProductCart(id).then((r) => {
+        const currUser = JSON.parse(sessionStorage.getItem("user"));
+        this.setUser({ ...currUser, cart: r.cart });
+      });
+    },
+    onPayment() {
+      clearCart().then((r) => {
         const currUser = JSON.parse(sessionStorage.getItem("user"));
         this.setUser({ ...currUser, cart: r.cart });
       });
@@ -43,12 +78,11 @@ export default {
             <p>{{ p.name }}</p>
           </div>
           <div class="quantity">
-            <p>-</p>
-            <p>1</p>
-            <p>+</p>
+            <p @click="onDeleteProductCart(p._id)">-</p>
+            <p>{{ p.count }}</p>
+            <p @click="onAddProductCart(p._id)">+</p>
           </div>
-          <p>{{ p.price }}</p>
-          <p @click="onDeleteProductCart(p._id)">X</p>
+          <p>{{ p.count * p.price }}</p>
         </div>
       </div>
     </div>
@@ -56,7 +90,7 @@ export default {
       <h3>Обща сума на количката</h3>
       <div class="paymentDetail">
         <h5>Общо продукти</h5>
-        <p>12.50лв.</p>
+        <p>{{ finalPrice.toFixed(2) }}лв.</p>
       </div>
       <div class="paymentDetail">
         <h5>Доставка</h5>
@@ -68,9 +102,9 @@ export default {
       </div>
       <div class="paymentDetail">
         <h5>Общо</h5>
-        <p>22.70лв.</p>
+        <p>{{ (finalPrice + 6.2 + 4).toFixed(2) }}лв.</p>
       </div>
-      <button class="catalogBtn">ПЛАТИ</button>
+      <button class="catalogBtn" @click="onPayment">ПЛАТИ</button>
     </div>
   </section>
 </template>

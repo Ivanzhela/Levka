@@ -1,18 +1,7 @@
 import axios from 'axios';
 const BASE_PRODUCT_URL = 'https://dull-ruby-alligator-suit.cyclic.app/shop/cart';
 
-// export async function getProductsCart() {
-//   try {
-//     const res = await axios.get(BASE_PRODUCT_URL);
-//     return res.data;
-//   }
-//   catch (e) {
-//     console.log('Error', e);
-//     return e;
-//   }
-// }
-
-export async function setProductCart(id) {
+export function setProductCart(id) {
     try {
       const options = {
         method: 'POST',
@@ -20,7 +9,7 @@ export async function setProductCart(id) {
           'x-authorization': JSON.parse(sessionStorage.getItem('user')).token
         }
       }
-      const res = await fetch(`${BASE_PRODUCT_URL}/${id}`, options);
+      const res = fetch(`${BASE_PRODUCT_URL}/${id}`, options).then(r => r.json());
       return res;
     }
     catch (e) {
@@ -38,6 +27,23 @@ export async function setProductCart(id) {
         }
       }
       const res = fetch(`${BASE_PRODUCT_URL}/${id}`, options).then(r => r.json());
+      return res;
+    }
+    catch (e) {
+      console.log('Error', e);
+      return e;
+    }
+  }
+
+  export function clearCart() {
+    try {
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'x-authorization': JSON.parse(sessionStorage.getItem('user')).token
+        }
+      }
+      const res = fetch(`${BASE_PRODUCT_URL}`, options).then(r => r.json());
       return res;
     }
     catch (e) {

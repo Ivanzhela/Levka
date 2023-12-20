@@ -1,15 +1,14 @@
 <script>
-import { mapActions, mapState } from 'pinia';
-import { RouterLink } from 'vue-router';
-import { useUserStore } from '../store/userStore';
+import { mapActions, mapState } from "pinia";
+import { RouterLink } from "vue-router";
+import { useUserStore } from "../store/userStore";
 export default {
   computed: {
-    ...mapState(useUserStore, ['isAuthenticated']),
+    ...mapState(useUserStore, ["isAuthenticated", "user"]),
   },
   methods: {
-    ...mapActions(useUserStore, ['logout']),
+    ...mapActions(useUserStore, ["logout"]),
   },
-
 };
 </script>
 
@@ -19,15 +18,28 @@ export default {
       <img src="/src/assets/img/logo9.png" alt="logo" />
     </router-link>
     <nav>
-      <router-link to="/catalog"><i style="font-size: 24px" class="fa">&#xf002;</i></router-link>
-      <router-link to="/catalog"><i class="material-icons">&#xe8d1;</i></router-link>
+      <router-link to="/catalog"
+        ><i style="font-size: 24px" class="fa">&#xf002;</i></router-link
+      >
+      <router-link to="/catalog"
+        ><i class="material-icons">&#xe8d1;</i></router-link
+      >
       <template v-if="isAuthenticated">
-        <router-link to="/cart"><i style="font-size: 24px" class="fa">&#xf07a;</i></router-link>
-        <router-link to="/" @click="logout"><i style="font-size:24px" class="fa">&#xf08b;</i></router-link>
+        <router-link to="/cart"
+          class="cartContainer"><i style="font-size: 24px" class="fa">&#xf07a;</i>
+          <p class="cart">{{ user.cart.length }}</p>
+        </router-link>
+        <router-link to="/" @click="logout"
+          ><i style="font-size: 24px" class="fa">&#xf08b;</i></router-link
+        >
       </template>
       <template v-else="!isAuthenticated">
-        <router-link to="/auth"><i style="font-size: 24px" class="fa">&#xf07a;</i></router-link>
-        <router-link to="/auth"><i style="font-size: 24px" class="fa">&#xf2be;</i></router-link>
+        <router-link to="/auth"
+          ><i style="font-size: 24px" class="fa">&#xf07a;</i></router-link
+        >
+        <router-link to="/auth"
+          ><i style="font-size: 24px" class="fa">&#xf2be;</i></router-link
+        >
       </template>
     </nav>
   </header>
@@ -83,5 +95,19 @@ header nav a i {
   display: block;
   width: 20px;
   height: 20px;
+}
+
+.cartContainer {
+  display: flex;
+  width: fit-content;
+}
+.cart {
+  border-radius: 100%;
+  background-color: #bf0413;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
 }
 </style>

@@ -1,8 +1,9 @@
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
+import { useUserStore } from "../../store/userStore";
 import { useProductsStore } from "../../store/productsStore.js";
 import Product from "../../components/Product.vue";
-import { setProductCart } from '../../dataProviders/cart.js'
+import { setProductCart } from "../../dataProviders/cart.js";
 
 export default {
   components: { Product },
@@ -26,10 +27,14 @@ export default {
     },
   },
   methods: {
-    async setCart() {
-      await setProductCart(this.productId)
-    }
-  }
+    ...mapActions(useUserStore, ["setUser"]),
+    setCart() {
+      setProductCart(this.productId).then((r) => {
+        const currUser = JSON.parse(sessionStorage.getItem("user"));
+        this.setUser({ ...currUser, cart: r.cart });
+      });
+    },
+  },
 };
 </script>
 
